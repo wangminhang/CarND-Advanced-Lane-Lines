@@ -81,13 +81,13 @@ I defined the `find_lane_lines` function in "./SolutionImplement.ipynb".
 
 I did this in function `get_curvature` of the IPython notebook located in "./SolutionImplement.ipynb".
 
-But I found the effect of this was not good. Like below:
+I first estimated the meters-per-pixel (in the perspective transformed straight-lines image) based upon the following facts:
+* The lane is about 3.7 meters wide (for calculating meters-per-pixel in X-direction)
+* Each dashed lines are about 3 meters long (for calculating meters-per-pixel in Y-direction)
 
-![alt text][image7]
+I then fit another set of polynomials with lane detected X and Y values converted to meters. The coefficients of these left and right "world space" polynomials were used to calculate the left and right curvature (at the bottom points) . The two curvatures were then averaged. 
 
-So I change the combined function which in eleventh code cell of the IPython notebook located in "./SolutionImplement.ipynb". And I combined the HLS L-channel and LAB B-channel color transform together. The effect of this combined transform is more better than above. Like below:
-
-![alt text][image6]
+For calculating the position of the vehicle with respect to center, I assumed that the camera is mounted at the center of the car. So, the distance between the center of the frame-image and average of the the bottom-intercepts of left and right lanes, when converted from pixels to meters, gives us an estimate of the position of the vehicle. 
 
 #### 6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
 
@@ -111,4 +111,5 @@ Here's a [link to my video result](./project_video_output.mp4)
 
 
 * When I apply in challenge video, the output is not good. I think the reason is in combination function is not well enouph. For more better output, we should find a better combination to improve the effect of detect line. Also, we should do some Preprocessing like Histogram equalization.
+* The main challenge that I faced was trying to find color and gradient thresholds that work most of the time.
 
